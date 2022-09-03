@@ -1,5 +1,10 @@
 <ion-header>
   <ion-toolbar>
     <ion-title >Facturando</ion-title>
+    <ion-buttons *ngIf="avatar" slot="end">
+      <ion-avatar>
+        <img (click)="logoutClick()" class="ion-padding" src="https://ionicframework.com/docs/demos/api/avatar/avatar.svg" />
+      </ion-avatar>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>

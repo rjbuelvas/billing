@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
+import {UsuarioGuard} from './guards/usuario.guard';
 
 const routes: Routes = [
   {
@@ -7,13 +8,14 @@ const routes: Routes = [
     loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
   },
   {
+    path: 'inicio',
+    loadChildren: () => import('./page/inicio/inicio.module').then( m => m.InicioPageModule),
+    canLoad: [UsuarioGuard]
+  },
+  {
     path: '',
     redirectTo: 'home',
     pathMatch: 'full'
-  },
-  {
-    path: 'inicio',
-    loadChildren: () => import('./page/inicio/inicio.module').then( m => m.InicioPageModule)
   }
 ];
 

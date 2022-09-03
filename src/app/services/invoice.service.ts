@@ -13,7 +13,7 @@ export class InvoiceService {
 
   constructor(private http: HttpClient) {  }
   getInvoices() {
-    return this.http.get(`${environment.baseUrl}/api/v2/invoices`,{headers})
+    return this.http.get(`${environment.baseUrl}/api/v1/invoices/all`,{headers})
       .subscribe(resp => {
         console.log(resp);
       });

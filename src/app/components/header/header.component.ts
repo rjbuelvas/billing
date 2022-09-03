@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output ,EventEmitter} from '@angular/core';
 
 @Component({
   selector: 'app-header',
@@ -6,9 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent implements OnInit {
-
+  @Input() params: string = '';
+  @Output() logout = new EventEmitter();
+  avatar = false;
   constructor() { }
 
-  ngOnInit() {}
-
+  ngOnInit() {
+    if(this.params !== ''){
+      this.avatar = true;
+    }
+  }
+  logoutClick() {
+    this.logout.emit(true);
+  }
 }
