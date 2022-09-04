@@ -19,16 +19,15 @@ export class HomePage implements OnInit{
 
   ngOnInit(): void {}
 
-  login( fLogin: NgForm) {
+  async login( fLogin: NgForm) {
     console.log( fLogin.valid);
     console.log(this.loginUser);
     if(fLogin.valid){
-      this.auth.postLogin(this.loginUser).subscribe( async (resp: any) => {
+      await this.auth.postLogin(this.loginUser).subscribe( async (resp: any) => {
         console.log(resp);
         if(resp.status === 200){
-          await this.saveToken(resp.data.token).then(()=>{
-            this.navCtrl.navigateRoot('/inicio', {animated: true});
-          });
+          await this.saveToken(resp.data.token);
+          this.navCtrl.navigateRoot('/inicio', {animated: true});
         }else{
           this.token = null;
           localStorage.clear();
