@@ -14,10 +14,10 @@ export class HomePage implements OnInit{
     password: ''
   };
 
-  token = null;
   constructor(private auth: AuthService, private alert: AlertController, private navCtrl: NavController) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+  }
 
   async login( fLogin: NgForm) {
     console.log( fLogin.valid);
@@ -26,20 +26,14 @@ export class HomePage implements OnInit{
       await this.auth.postLogin(this.loginUser).subscribe( async (resp: any) => {
         console.log(resp);
         if(resp.status === 200){
-          await this.saveToken(resp.data.token);
+          await this.auth.saveToken(resp.data.token);
           this.navCtrl.navigateRoot('/inicio', {animated: true});
         }else{
-          this.token = null;
           localStorage.clear();
           this.presentAlert();
         }
       });
     }
-  }
-
-  async saveToken(token){
-    this.token = token;
-    await localStorage.setItem('token', token);
   }
 
   async presentAlert() {

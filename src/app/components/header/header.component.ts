@@ -7,6 +7,7 @@ import { Component, OnInit, Input, Output ,EventEmitter} from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
   @Input() params: string = '';
+  @Input() urlAvatar: string = '';
   @Output() logout = new EventEmitter();
   avatar = false;
   constructor() { }
