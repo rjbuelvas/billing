@@ -9,6 +9,8 @@ export class HeaderComponent implements OnInit {
   @Input() params: string = '';
   @Input() urlAvatar: string = '';
   @Output() logout = new EventEmitter();
+  @Output() searchInit = new EventEmitter();
+
   avatar = false;
   constructor() { }
 
@@ -19,5 +21,9 @@ export class HeaderComponent implements OnInit {
   }
   logoutClick() {
     this.logout.emit(true);
+  }
+
+  search( event ) {
+    this.searchInit.emit(event.detail.value);
   }
 }

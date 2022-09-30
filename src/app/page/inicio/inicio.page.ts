@@ -16,6 +16,7 @@ export class InicioPage implements OnInit {
   isModalOpen = false;
   user: any;
   urlAvatar: string;
+  textSearch: string = '';
 
   constructor(private invoiceService: InvoiceService, private auth: AuthService,public actionSheetController: ActionSheetController,
               private alert: AlertController) { }
@@ -121,5 +122,9 @@ export class InicioPage implements OnInit {
     }else{
       this.urlAvatar = `https://planetalab.xyz/assets/upload/images/${this.user.photo}`;
     }
+  }
+
+  search(event) {
+    this.textSearch = event;
   }
 }

@@ -1,10 +1,19 @@
-<ion-header>
+<ion-header color="light">
   <ion-toolbar>
-    <ion-title >Facturando</ion-title>
+    <ion-title *ngIf="!avatar">Facturando</ion-title>
+    <ion-title color="primary" *ngIf="avatar">Facturas</ion-title>
     <ion-buttons *ngIf="avatar" slot="end">
       <ion-avatar>
-        <img (click)="logoutClick()" class="ion-padding" src="{{urlAvatar}}" />
+        <img (click)="logoutClick()" class="ion-padding" src="{{urlAvatar}}"/>
       </ion-avatar>
     </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="avatar">
+    <ion-searchbar
+                   placeholder="Buscar cliente"
+                   inputmode="text"
+                   (ionChange)="search( $event )"
+                   animated=""
+    ></ion-searchbar>
   </ion-toolbar>
 </ion-header>

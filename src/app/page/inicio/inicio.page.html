@@ -1,18 +1,16 @@
-<app-header params="inicio" urlAvatar="{{urlAvatar}}" (logout)="event($event)"></app-header>
+<app-header params="inicio" urlAvatar="{{urlAvatar}}" (logout)="event($event)" (searchInit)="search($event)"></app-header>
 <ion-content>
+  <br>
   <ion-refresher slot="fixed" (ionRefresh)="recargar($event)">
     <ion-refresher-content>
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list-header>
-    <ion-label color="primary">Facturas</ion-label>
-  </ion-list-header>
   <ion-list-header *ngIf="invoices.length === 0">
     <ion-label color="danger" class="ion-text-sm-center"><h5>No se encontraron facturas</h5></ion-label>
   </ion-list-header>
 
   <ion-accordion-group *ngIf="invoices.length > 0">
-    <ion-accordion value="{{invoice.invoice_id}}" *ngFor="let invoice of invoices" class="ion-color-primary"
+    <ion-accordion value="{{invoice.invoice_id}}" *ngFor="let invoice of invoices | filtro:textSearch" class="ion-color-primary"
                    toggleIcon="caret-down-circle" toggleIconSlot="end">
       <ion-item slot="header">
         <ion-label>
