@@ -21,6 +21,7 @@ export class InicioPage implements OnInit {
   constructor(private invoiceService: InvoiceService, private auth: AuthService,public actionSheetController: ActionSheetController,
               private alert: AlertController) { }
   ngOnInit() {
+    this.auth.showLoading('Cargando Facturas');
     this.siguiente();
     this.user = this.auth.usuario;
     this.avatar();
@@ -66,7 +67,8 @@ export class InicioPage implements OnInit {
     this.isModalOpen = isOpen;
   }
   async logout(){
-    await this.auth.Logout();
+    await this.auth.showLoading('Cerrando sesión');
+    await this.auth.logout();
   }
 
   event(even) {
@@ -85,6 +87,7 @@ export class InicioPage implements OnInit {
 
   async siguiente( event ?) {
     await this.invoiceService.getInvoices().subscribe( async (resp: any ) => {
+      await this.auth.closeLoading();
       this.invoices = resp.data;
         if( event ){
           await event.target.complete();
@@ -97,6 +100,7 @@ export class InicioPage implements OnInit {
 
   async recargar( event? ) {
     await this.invoiceService.getInvoices().subscribe( async ( resp: any ) => {
+      await this.auth.closeLoading();
       this.invoices = resp.data;
       if( event ){
         await setTimeout(async () => {
@@ -106,10 +110,10 @@ export class InicioPage implements OnInit {
     });
   }
 
-  async presentAlert() {
+  async presentAlert(text?: string) {
     const alert = await this.alert.create({
       backdropDismiss: true,
-      message: 'reload success',
+      message: (text.length > 0 )?text:'reload success',
       buttons: ['OK'],
     });
 

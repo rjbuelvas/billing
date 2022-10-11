@@ -20,11 +20,12 @@ export class HomePage implements OnInit{
   }
 
   async login( fLogin: NgForm) {
+    await this.auth.showLoading('Valindado Información');
     console.log( fLogin.valid);
     console.log(this.loginUser);
     if(fLogin.valid){
       await this.auth.postLogin(this.loginUser).subscribe( async (resp: any) => {
-        console.log(resp);
+        await this.auth.closeLoading();
         if(resp.status === 200){
           await this.auth.saveToken(resp.data.token);
           this.navCtrl.navigateRoot('/inicio', {animated: true});

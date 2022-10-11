@@ -3,15 +3,16 @@ import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
 import {environment} from '../../environments/environment';
 import {catchError} from 'rxjs/operators';
 import {throwError} from 'rxjs';
-import {NavController} from '@ionic/angular';
+import {LoadingController, NavController} from '@ionic/angular';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   usuario = {};
+  loading: HTMLIonLoadingElement;
   private token =localStorage.getItem('token');
-  constructor(private http: HttpClient, private navCrtl: NavController) {}
+  constructor(private http: HttpClient, private navCrtl: NavController, private loadingCtrl: LoadingController) {}
 
   postLogin(data) {
     return this.http.post(`${environment.baseUrl}/api/auth`, data ).pipe(
@@ -49,10 +50,24 @@ export class AuthService {
     await localStorage.setItem('token', token);
     await this.validateToken();
   }
-  Logout(){
+  async logout(){
     localStorage.clear();
     this.usuario = null;
     this.token = null;
-    this.navCrtl.navigateRoot('/home');
+    setTimeout(async () => {
+      await this.closeLoading();
+      await this.navCrtl.navigateRoot('/home');
+    }, 3000);
+  }
+  async showLoading(text) {
+    this.loading = await this.loadingCtrl.create({
+      message: `${text}...`,
+      spinner: 'circles',
+    });
+    await this.loading.present();
+  }
+
+  async closeLoading(){
+    await this.loading.dismiss();
   }
 }
