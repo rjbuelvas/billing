@@ -70,4 +70,10 @@ export class AuthService {
   async closeLoading(){
     await this.loading.dismiss();
   }
+  recovery(data){
+    const headers = new HttpHeaders({
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+    });
+    return this.http.post(`${environment.baseUrl}/api/recovery`,{ email : data},{headers});
+  }
 }

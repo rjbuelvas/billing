@@ -33,13 +33,44 @@
                 </ion-item>
               </ion-col>
               <ion-col size="12" style="padding: 5px;">
-                <p class="ion-text-center"><a   href="">Olvido su contraseña</a></p>
+                <p class="ion-text-center"><ion-button type="button" (click)="setOpen(true)" class="ion-color-light" fill="clear" expand="block">Olvido su contraseña</ion-button></p>
               </ion-col>
               <ion-col size="12">
                 <ion-button type="submit" expand="block">Sign in</ion-button>
               </ion-col>
             </ion-row>
           </form>
+          <ion-modal #modal trigger="open-modal" [isOpen]="isModalOpen" [backdropDismiss]="false">
+            <ng-template>
+              <ion-content>
+                <br><br>
+                <ion-toolbar>
+                  <ion-title>Recuperar contraseña</ion-title>
+                  <ion-buttons slot="end">
+                    <ion-button color="dark" (click)="setOpen(false)">Close</ion-button>
+                  </ion-buttons>
+                </ion-toolbar>
+                <ion-card>
+                  <ion-card-content>
+                    <form (ngSubmit)="recovery( frecovery )" #frecovery="ngForm">
+                      <ion-row>
+                        <ion-col size="12" style="padding: 5px;">
+                          <ion-item >
+                            <ion-label position="stacked">Correo</ion-label>
+                            <ion-input type="email" [(ngModel)]="mail" [ngModelOptions]="{standalone: true}" [email]="true"></ion-input>
+                            <ion-note slot="error">Correo Invalido</ion-note>
+                          </ion-item>
+                        </ion-col>
+                        <ion-col size="12">
+                          <ion-button type="submit" expand="block">Recuperar</ion-button>
+                        </ion-col>
+                      </ion-row>
+                    </form>
+                  </ion-card-content>
+                </ion-card>
+              </ion-content>
+            </ng-template>
+          </ion-modal>
         </ion-card-content>
       </ion-card>
     </ion-col>

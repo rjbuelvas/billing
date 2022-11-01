@@ -76,12 +76,20 @@ export class InicioPage implements OnInit {
   }
 
   dowloadFile(num: number) {
-    this.invoiceService.getDownloadFile(num).subscribe(response => {
-      const blob: any = new Blob([response], { type: 'text/json; charset=utf-8' });
-      const url = window.URL.createObjectURL(blob);
-      window.open(url);
-      //window.location.href = response.url;
-      //fileSaver.saveAs(blob, 'employees.json');
+    window.open(`https://api.planetalab.xyz/api/invoice/900782726/FES-SETP${num}.pdf`);
+  }
+  dowloadXml(num: number) {
+    window.open(`https://api.planetalab.xyz/api/invoice/900782726/FES-SETP${num}.xml`);
+  }
+
+  sendEmail(num: number){
+    const data = {
+      'company_idnumber': 900782726,
+      'prefix': 'SETP',
+      'number': num
+    };
+    this.invoiceService.postEmail(data).subscribe( (resp: any) => {
+      console.log(resp);
     });
   }
 

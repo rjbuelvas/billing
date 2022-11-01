@@ -13,7 +13,9 @@ export class HomePage implements OnInit{
     username: '',
     password: ''
   };
-
+  mail = '';
+  isModalOpen = false;
+  frecovery: NgForm;
   constructor(private auth: AuthService, private alert: AlertController, private navCtrl: NavController) {}
 
   ngOnInit(): void {
@@ -21,8 +23,6 @@ export class HomePage implements OnInit{
 
   async login( fLogin: NgForm) {
     await this.auth.showLoading('Valindado Información');
-    console.log( fLogin.valid);
-    console.log(this.loginUser);
     if(fLogin.valid){
       await this.auth.postLogin(this.loginUser).subscribe( async (resp: any) => {
         await this.auth.closeLoading();
@@ -37,7 +37,7 @@ export class HomePage implements OnInit{
     }
   }
 
-  async presentAlert() {
+  async presentAlert(text?: string) {
     const alert = await this.alert.create({
       backdropDismiss: false,
       header: 'Error',
@@ -49,4 +49,32 @@ export class HomePage implements OnInit{
     await alert.present();
   }
 
+  setOpen(isOpen: boolean) {
+    this.isModalOpen = isOpen;
+    if(!isOpen){
+      this.mail = '';
+    }
+  }
+
+  async recovery(frecovery: NgForm) {
+    await this.auth.showLoading('Recuperando contraseña');
+    if (frecovery.valid) {
+      await this.auth.recovery(this.mail).subscribe( async (resp: any ) => {
+        await  this.auth.closeLoading();
+        console.log(resp);
+        this.presentAlertRecovery(resp.data.message);
+        this.setOpen(false);
+      });
+    }
+  }
+
+  async presentAlertRecovery(text?: string) {
+    const alert = await this.alert.create({
+      backdropDismiss: true,
+      message: (text.length > 0 )?text:'',
+      buttons: ['OK'],
+    });
+
+    await alert.present();
+  }
 }
